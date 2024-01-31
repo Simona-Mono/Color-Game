@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import NewGameBtn from '../components/buttons/NewGameBtn';
 import DropDownBtn from '../components/buttons/DropDownBtn';
 import { randomColor, hexToRgb, hexToHsl } from '../utils/colorUtils';
+import Slider from '../components/Slider';
 
 export default function Home() {
   const [colors, setColors] = useState<string[]>([]);
@@ -13,12 +14,12 @@ export default function Home() {
   const [gameState, setGameState] = useState<string>('start');
   const [difficulty, setDifficulty] = useState<number>(9);
   const [selectedOption, setSelectedOption] = useState('');
+  const [gridColumns, setGridColumns] = useState<number>(3); // State for grid columns
 
   const headerBackground = gameState === 'won' ? colors[secretIndex] : 'steelblue';
   const newGameText = gameState === 'won' ? 'New game?' : 'New colors';
   const message = gameState === 'won' ? 'Correct :)' : gameState === 'wrong' ? 'Wrong :(' : '';
   
-
   useEffect(() => {
     newGame();
   }, [difficulty]); // re-start game when changing difficulty
@@ -29,7 +30,7 @@ export default function Home() {
 
     while (newColors.length < difficultyNum) {
       const color = randomColor();
-      if (!generatedColors.has(color)) {  // check that there are no duplicate colors
+      if (!generatedColors.has(color)) {
         newColors.push(color);
         generatedColors.add(color);
       }
@@ -49,7 +50,7 @@ export default function Home() {
         colorModel = hexToRgb(colors[secretIndex]);
         break;
       case 'HSL':
-        colorModel = hexToHsl(colors[secretIndex]);;
+        colorModel = hexToHsl(colors[secretIndex]);
         break;
       default:
         colorModel = 'HEX ' + colors[secretIndex];
@@ -80,6 +81,10 @@ export default function Home() {
     setSelectedOption(option);
   };
 
+  const handleSliderChange = (value: number) => {
+    setGridColumns(value);
+  };
+
   const newGame = () => {
     const newColors = generateColors(difficulty);
     const newSecretIndex = Math.floor(Math.random() * difficulty);
@@ -101,27 +106,29 @@ export default function Home() {
         <NewGameBtn onClick={newGame} text={newGameText} />
         <span className="text-center text-black w-48">{message}</span>
         <div className='flex'>
-        <DifficultyBtn
-          active={difficulty === 3}
-          onClick={() => changeDifficulty(3)}
-          text="EASY"
-        />
-        <DifficultyBtn
-          active={difficulty === 9}
-          onClick={() => changeDifficulty(9)}
-          text="HARD"
-        />
-         <DropDownBtn
-          options={['HEX', 'RGB', 'HSL']}
-          onSelect={handleOptionSelect}
-        />
+          <DifficultyBtn
+            active={difficulty === 3}
+            onClick={() => changeDifficulty(3)}
+            text="EASY"
+          />
+          <DifficultyBtn
+            active={difficulty === 9}
+            onClick={() => changeDifficulty(9)}
+            text="HARD"
+          />
+          <DropDownBtn
+            options={['HEX', 'RGB', 'HSL']}
+            onSelect={handleOptionSelect}
+          />
+          {/* Slider */}
+          <Slider max={6} value={gridColumns} onChange={handleSliderChange} />
         </div>
       </div>
 
       {/* Main Content */}
-      <main className='h-full bg-gray-800'>
-        <div className='max-w-2xl py-8 mx-auto'>
-          <Grid col={'grid-cols-3'} gap={'gap-4'}>
+      <main className='h-full overflow-scroll bg-gray-800'>
+        <div className='max-w-3xl py-8 mx-auto'>
+          <Grid col={gridColumns} gap={12}>
             {colors.map((c, i) => (
               <Square key={i} color={c} onClick={() => handleColorClick(i)} />
             ))}
