@@ -7,7 +7,7 @@ interface DifficultyBtnPorps {
   
     return (
         <button
-          className={`px-3 hover:bg-customblue-50 hover:text-white ${props.active ? 'active bg-customblue-50 text-white' : ''}`}
+          className={`px-3 py-1 hover:bg-customblue-50 hover:text-white ${props.active ? 'active bg-customblue-50 text-white' : ''}`}
           onClick={props.onClick}
         >
           {props.text}

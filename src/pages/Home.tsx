@@ -4,16 +4,20 @@ import Square from '../components/Square';
 import DifficultyBtn from '../components/buttons/DifficultyBtn';
 import Header from '../components/Header';
 import NewGameBtn from '../components/buttons/NewGameBtn';
+import DropDownBtn from '../components/buttons/DropDownBtn';
+import { randomColor, hexToRgb, hexToHsl } from '../utils/colorUtils';
 
 export default function Home() {
   const [colors, setColors] = useState<string[]>([]);
   const [secretIndex, setSecretIndex] = useState<number>(0);
   const [gameState, setGameState] = useState<string>('start');
   const [difficulty, setDifficulty] = useState<number>(9);
+  const [selectedOption, setSelectedOption] = useState('');
 
   const headerBackground = gameState === 'won' ? colors[secretIndex] : 'steelblue';
   const newGameText = gameState === 'won' ? 'New game?' : 'New colors';
   const message = gameState === 'won' ? 'Correct :)' : gameState === 'wrong' ? 'Wrong :(' : '';
+  
 
   useEffect(() => {
     newGame();
@@ -34,9 +38,24 @@ export default function Home() {
     return newColors;
   };
 
-  const randomColor = () => {
-    const letters = '0123456789ABCDEF';
-    return '#' + Array.from({ length: 6 }, () => letters[Math.floor(Math.random() * 16)]).join('');
+  const getColorModel = () => {
+    let colorModel = '';
+  
+    switch (selectedOption) {
+      case 'HEX':
+        colorModel = 'HEX ' + colors[secretIndex];
+        break;
+      case 'RGB':
+        colorModel = hexToRgb(colors[secretIndex]);
+        break;
+      case 'HSL':
+        colorModel = hexToHsl(colors[secretIndex]);;
+        break;
+      default:
+        colorModel = 'HEX ' + colors[secretIndex];
+    }
+  
+    return colorModel;
   };
 
   const handleColorClick = (i: number) => {
@@ -57,6 +76,10 @@ export default function Home() {
     setDifficulty(newDifficulty);
   };
 
+  const handleOptionSelect = (option: string) => {
+    setSelectedOption(option);
+  };
+
   const newGame = () => {
     const newColors = generateColors(difficulty);
     const newSecretIndex = Math.floor(Math.random() * difficulty);
@@ -68,12 +91,16 @@ export default function Home() {
   return (
     <div className='flex flex-col h-screen'>
        {/* Header */}
-       <Header title={colors[secretIndex]} backgroundColor={headerBackground} />
+       <Header 
+        colorModel={getColorModel()} 
+        backgroundColor={headerBackground} 
+       />
 
       {/* Action Buttons */}
-      <div className="flex justify-center bg-white text-customblue-50">
+      <div className="flex justify-between items-center mx-auto bg-white text-customblue-50">
         <NewGameBtn onClick={newGame} text={newGameText} />
-        <span className="text-center text-black w-56">{message}</span>
+        <span className="text-center text-black w-48">{message}</span>
+        <div className='flex'>
         <DifficultyBtn
           active={difficulty === 3}
           onClick={() => changeDifficulty(3)}
@@ -84,6 +111,11 @@ export default function Home() {
           onClick={() => changeDifficulty(9)}
           text="HARD"
         />
+         <DropDownBtn
+          options={['HEX', 'RGB', 'HSL']}
+          onSelect={handleOptionSelect}
+        />
+        </div>
       </div>
 
       {/* Main Content */}
