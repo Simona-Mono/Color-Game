@@ -3,7 +3,7 @@ interface HeaderProps {
     backgroundColor: string;
   }
   export default function Header(props: HeaderProps) {
-    console.log(props.colorModel)
+   // console.log(props.colorModel)
   
     return (
         <header className="text-center text-white text-4xl font-bold p-6" style={{ background: props.backgroundColor }}>

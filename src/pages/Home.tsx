@@ -14,7 +14,7 @@ export default function Home() {
   const [gameState, setGameState] = useState<string>('start');
   const [difficulty, setDifficulty] = useState<number>(9);
   const [selectedOption, setSelectedOption] = useState('');
-  const [gridColumns, setGridColumns] = useState<number>(3); // State for grid columns
+  const [gridColumns, setGridColumns] = useState<number>(3);
 
   const headerBackground = gameState === 'won' ? colors[secretIndex] : 'steelblue';
   const newGameText = gameState === 'won' ? 'New game?' : 'New colors';
@@ -25,18 +25,15 @@ export default function Home() {
   }, [difficulty]); // re-start game when changing difficulty
 
   const generateColors = (difficultyNum: number) => {
-    const newColors: string[] = [];
-    const generatedColors: Set<string> = new Set();
+    const generatedColors: Set<string> = new Set(); 
 
-    while (newColors.length < difficultyNum) {
+    while (generatedColors.size < difficultyNum) {
       const color = randomColor();
-      if (!generatedColors.has(color)) {
-        newColors.push(color);
-        generatedColors.add(color);
-      }
+      generatedColors.add(color);
+      console.log(generatedColors)
     }
 
-    return newColors;
+    return generatedColors;
   };
 
   const getColorModel = () => {
@@ -88,7 +85,7 @@ export default function Home() {
   const newGame = () => {
     const newColors = generateColors(difficulty);
     const newSecretIndex = Math.floor(Math.random() * difficulty);
-    setColors(newColors);
+    setColors([...newColors]);
     setSecretIndex(newSecretIndex);
     setGameState('start');
   };
