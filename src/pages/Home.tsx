@@ -5,7 +5,7 @@ import DifficultyBtn from '../components/buttons/DifficultyBtn';
 import Header from '../components/Header';
 import NewGameBtn from '../components/buttons/NewGameBtn';
 import DropDownBtn from '../components/buttons/DropDownBtn';
-import { randomColor, hexToRgb, hexToHsl } from '../utils/colorUtils';
+import { randomColor, hexToRgb, hexToHsl, randomColorNuance } from '../utils/colorUtils';
 import Slider from '../components/Slider';
 
 export default function Home() {
@@ -13,7 +13,8 @@ export default function Home() {
   const [secretIndex, setSecretIndex] = useState<number>(0);
   const [gameState, setGameState] = useState<string>('start');
   const [difficulty, setDifficulty] = useState<number>(9);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
+  const [selectedRange, setSelectedRange] = useState('Classic');
   const [gridColumns, setGridColumns] = useState<number>(3);
 
   const headerBackground = gameState === 'won' ? colors[secretIndex] : 'steelblue';
@@ -22,24 +23,24 @@ export default function Home() {
   
   useEffect(() => {
     newGame();
-  }, [difficulty]); // re-start game when changing difficulty
+  }, [difficulty, selectedRange]); // re-start game when changing difficulty or range
 
   const generateColors = (difficultyNum: number) => {
     const generatedColors: Set<string> = new Set(); 
+    const baseColor = randomColor(); // for nuances
 
     while (generatedColors.size < difficultyNum) {
-      const color = randomColor();
-      generatedColors.add(color);
-      console.log(generatedColors)
+        let colorToAdd = selectedRange === 'Classic' ? randomColor() : randomColorNuance(baseColor);
+        generatedColors.add(colorToAdd);
     }
 
     return generatedColors;
-  };
+};
 
   const getColorModel = () => {
     let colorModel = '';
   
-    switch (selectedOption) {
+    switch (selectedModel) {
       case 'HEX':
         colorModel = 'HEX ' + colors[secretIndex];
         break;
@@ -74,8 +75,12 @@ export default function Home() {
     setDifficulty(newDifficulty);
   };
 
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
+  const handleModelOptionSelect = (option: string) => {
+    setSelectedModel(option);
+  };
+
+  const handleRangeOptionSelect = (option: string) => {
+    setSelectedRange(option);
   };
 
   const handleSliderChange = (value: number) => {
@@ -115,7 +120,13 @@ export default function Home() {
           />
           <DropDownBtn
             options={['HEX', 'RGB', 'HSL']}
-            onSelect={handleOptionSelect}
+            selectedOption='HEX'
+            onSelect={handleModelOptionSelect}
+          />
+          <DropDownBtn
+            options={['Close', 'Classic']}
+            selectedOption='Classic'
+            onSelect={handleRangeOptionSelect}
           />
           {/* Slider */}
           <Slider max={6} value={gridColumns} onChange={handleSliderChange} />

@@ -2,12 +2,13 @@ import { useState } from 'react';
 
 interface DropDownBtnProps {
   options: string[];
+  selectedOption: string;
   onSelect: (selectedOption: string) => void;
 }
 
 export default function DropDownBtn(props: DropDownBtnProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('HEX');
+  const [selectedOption, setSelectedOption] = useState(props.selectedOption);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -41,7 +42,7 @@ export default function DropDownBtn(props: DropDownBtnProps) {
       </button>
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-8 right-0 w-full bg-white shadow-md">
+        <div className="absolute top-12 right-0 w-full bg-white shadow-md">
           {props.options.map((option, index) => (
             <button
               key={index}

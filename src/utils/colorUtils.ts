@@ -4,6 +4,25 @@ export const randomColor = (): string => {
     return '#' + Array.from({ length: 6 }, () => letters[Math.floor(Math.random() * 16)]).join('');
 };
 
+// Generate close nuances of a random color
+export const randomColorNuance = (color: string): string => {
+    const bigint = parseInt(color.slice(1), 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+
+    // the smaller is variation, the closer are nuances
+    const variation = 50; 
+    r = Math.min(255, Math.max(0, r + Math.floor(Math.random() * variation) - variation / 2));
+    g = Math.min(255, Math.max(0, g + Math.floor(Math.random() * variation) - variation / 2));
+    b = Math.min(255, Math.max(0, b + Math.floor(Math.random() * variation) - variation / 2));
+
+    // RGB to HEX format
+    const closeColor = `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+
+    return closeColor;
+};
+
 // Convert HEX color to RGB format
 export const hexToRgb = (hex: string): string => {
     // check if HEX color is valid
