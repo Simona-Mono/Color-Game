@@ -11,7 +11,7 @@ export const randomColorNuance = (color: string): string => {
     let g = (bigint >> 8) & 255;
     let b = bigint & 255;
 
-    // the smaller is variation, the closer are nuances
+    // the smaller is the variation, the closer are the nuances
     const variation = 50; 
     r = Math.min(255, Math.max(0, r + Math.floor(Math.random() * variation) - variation / 2));
     g = Math.min(255, Math.max(0, g + Math.floor(Math.random() * variation) - variation / 2));

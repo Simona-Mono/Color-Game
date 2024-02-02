@@ -1,2 +1,70 @@
 
+/* Home */
 
+.home {
+    @apply flex flex-col h-screen;
+  }
+
+  /* __header */
+
+  .home__header {
+    @apply text-center text-white text-4xl font-bold p-6;
+  }
+
+  .title__color-name {
+    @apply block py-2 drop-shadow-lg
+  }
+
+  /* __actions */
+
+  .home__actions {
+    @apply mx-auto bg-white text-customblue-50;
+  }
+  
+  .actions {
+    @apply flex items-center;
+  }
+  
+  .actions__message {
+    @apply text-center text-black w-48;
+  }
+  
+  .container {
+    @apply flex;
+  }
+
+  .actions__button {
+    @apply relative uppercase px-3 hover:text-white hover:bg-customblue-50;
+  }
+
+  .actions__button--active {
+    @layer active;
+    @apply bg-customblue-50 text-white;
+  }
+
+  .button__dropdown--close {
+    @apply uppercase px-3 font-semibold h-full inline-flex items-center;
+  }
+
+  .button__dropdown--open {
+    @apply absolute top-12 right-0 w-full bg-white shadow-md;
+  }
+
+  .dropdown__item {
+    @apply block text-customblue-50 text-left w-full py-2 px-4 hover:bg-gray-100 hover:text-customblue-50;
+  }
+  
+  /* __game-area */
+
+  .home__game-area {
+    @apply h-full overflow-scroll bg-gray-800;
+  }
+  
+  .game-area {
+    @apply max-w-3xl py-8 mx-auto;
+  }
+  
+  .item__square {
+    @apply rounded-md h-48 cursor-pointer transition ease-in-out delay-75;
+  }
+  

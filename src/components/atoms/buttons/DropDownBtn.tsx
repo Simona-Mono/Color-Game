@@ -21,10 +21,10 @@ export default function DropDownBtn(props: DropDownBtnProps) {
   };
 
   return (
-    <div className='relative'>
+    <div className='actions__button'>
       <button
         onClick={toggleDropdown}
-        className="hover:bg-customblue-50 hover:text-white font-semibold h-full px-4 py-1 inline-flex items-center"
+        className="button__dropdown--close"
       >
        {/* Selected option */}
         {selectedOption}
@@ -42,12 +42,12 @@ export default function DropDownBtn(props: DropDownBtnProps) {
       </button>
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-12 right-0 w-full bg-white shadow-md">
+        <div className="button__dropdown--open">
           {props.options.map((option, index) => (
             <button
               key={index}
               onClick={() => handleOptionClick(option)}
-              className="block text-left w-full py-2 px-4 hover:bg-gray-100"
+              className="dropdown__item"
             >
               {option}
             </button>
