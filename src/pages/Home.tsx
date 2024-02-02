@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import Header from '../components/organisms/Header';
 import { GameStateContext } from '../contexts/GameStateContext';
-import GameActions from '../components/organisms/GameActions';
 import GameArea from '../components/organisms/GameArea';
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
   return (
     <main className='home'>
       <Header />
-     <GameActions />
       <GameArea />
     </main>
   );

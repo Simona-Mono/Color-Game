@@ -15,14 +15,32 @@
     @apply block py-2 drop-shadow-lg
   }
 
-  /* __actions */
+  /* __game-area */
 
-  .home__actions {
-    @apply mx-auto bg-white text-customblue-50;
+  .home__game-area {
+    @apply h-full overflow-scroll bg-gray-800;
   }
   
+  .game-area {
+    @apply mx-auto text-center;
+  }
+
+  .game-area__grid {
+    @apply max-w-3xl mx-auto;
+  }
+  
+  .item__square {
+    @apply rounded-md h-48 cursor-pointer transition ease-in-out delay-75;
+  }
+  
+  /* __actions */
+  
   .actions {
-    @apply flex items-center;
+    @apply flex items-center max-w-3xl mx-auto mb-4;
+  }
+
+  .game-area__actions {
+    @apply bg-white text-customblue-50;
   }
   
   .actions__message {
@@ -30,11 +48,15 @@
   }
   
   .container {
-    @apply flex;
+    @apply flex justify-end;
   }
 
   .actions__button {
     @apply relative uppercase px-3 hover:text-white hover:bg-customblue-50;
+  }
+
+  .actions__button--shrink {
+    @apply uppercase px-3 h-12 hover:text-white hover:bg-customblue-50 shrink-0;
   }
 
   .actions__button--active {
@@ -52,19 +74,5 @@
 
   .dropdown__item {
     @apply block text-customblue-50 text-left w-full py-2 px-4 hover:bg-gray-100 hover:text-customblue-50;
-  }
-  
-  /* __game-area */
-
-  .home__game-area {
-    @apply h-full overflow-scroll bg-gray-800;
-  }
-  
-  .game-area {
-    @apply max-w-3xl py-8 mx-auto;
-  }
-  
-  .item__square {
-    @apply rounded-md h-48 cursor-pointer transition ease-in-out delay-75;
   }
   

@@ -41,7 +41,7 @@ export default function SquareGrid(props: GridProps) {
 };
 
     return (     
-      <div className='game-area__grid' style={gridStyle}>
+      <div style={gridStyle}>
       {colors.map((c, i) => (
         <GridItem key={i}>
           <Square color={c} onClick={() => handleColorClick(i)} />

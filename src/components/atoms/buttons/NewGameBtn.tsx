@@ -8,7 +8,7 @@ interface NewGameBtnPorps {
     const { startNewGame } = useContext(GameStateContext);
   
     return (
-        <button onClick={startNewGame} className='actions__button'>
+        <button onClick={startNewGame} className='actions__button--shrink'>
           {props.text}
         </button>
       );
